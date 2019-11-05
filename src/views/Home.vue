@@ -1,19 +1,24 @@
 <template>
-  <div class="home">
-    <div id="connexion">
-      <connexion></connexion>
-    </div>
+  <div>
+    <Connexion @setUser="setUser"/>
   </div>
 </template>
 
 <script>
+  import Connexion from '../components/Connexion.vue'
 
-import Connexion from "../components/Connexion";
-
-export default {
-  name: 'home',
-  components: {
-    Connexion
+  export default {
+    name: 'home',
+    mounted: function () {
+      this.setUser(null)
+    },
+    components: {
+      Connexion
+    },
+    methods: {
+      setUser() {
+        this.$emit('setUser');
+      }
+    }
   }
-}
 </script>

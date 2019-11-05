@@ -1,29 +1,55 @@
 <template>
-  <div id="app">
-<!--    <div id="nav">-->
-<!--      <router-link to="/">Home</router-link> |-->
-<!--      <router-link to="/about">About</router-link>-->
-<!--    </div>-->
-    <router-view/>
-  </div>
+    <div id="app">
+        <b-navbar variant="primary" type="dark">
+            <b-navbar-brand tag="h1" class="mb-0">
+                <router-link to="/">
+                    <b-button variant="primary">EEV SAS</b-button>
+                </router-link>
+            </b-navbar-brand>
+            <b-navbar-nav class="ml-auto">
+                <b-dropdown v-if="user != null" :text="user.firstname+' '+user.lastname+' ('+user.company+')'" variant="primary">
+                    <b-dropdown-item @click="$router.push('/questionnaire')">Commencer le test</b-dropdown-item>
+                    <b-dropdown-item>Mes résultats</b-dropdown-item>
+                    <b-dropdown-item v-if="(user.firstname == 'admin')&&(user.lastname == 'admin')&&(user.company == 'admin')">Tous les Résultats</b-dropdown-item>
+                    <b-dropdown-divider></b-dropdown-divider>
+                    <b-dropdown-item @click="signOut">Déconnexion</b-dropdown-item>
+                </b-dropdown>
+            </b-navbar-nav>
+        </b-navbar>
+        <router-view class="container" @setUser="setUser"/>
+    </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+    export default{
+        data: function () {
+            return {
+                user:null
+            }
+        },
+        mounted(){
+            this.setUser()
+        },
+        methods:{
+            setUser(){
+                try {
+                    this.user = JSON.parse(sessionStorage.getItem("currentUser"))
+                } catch (e) {
+                    this.user = null
+                }
+            },
+            signOut(){
+                this.user = null
+                sessionStorage.setItem("currentUser","")
+                this.$router.push("/")
+            }
+        }
     }
-  }
-}
+</script>
+
+<style lang="scss">
+    #app, html{
+        background-size: cover;
+        background-image: url("assets/light-electricity-glare-blurring-wallpaper-preview.jpg");
+    }
 </style>

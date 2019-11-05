@@ -1,34 +1,40 @@
-
 <template>
-    <div class="question">
-        <b-form-group label="Using options array:">
-            <b-form-checkbox-group
-                    id="checkbox-group-1"
-                    v-model="selected"
-                    :options="options"
-                    name="flavour-1"
-            ></b-form-checkbox-group>
-        </b-form-group>
+    <div v-if="question != null">
+        <h3>{{question.titre}}</h3>
+        <b-form>
+            <b-form-checkbox v-for="choix in question.choix"
+                             :key="choix.libelle"
+                             v-model="choix.check"
+            >
+                {{choix.libelle}}
+            </b-form-checkbox>
+            <br>
+            <b-button v-if="index > 0" @click="before" variant="primary">Question Précédente</b-button>
+            <b-button v-if="index < 1" @click="onSubmit" class="float-lg-right" variant="primary">Question Suivante</b-button>
+            <b-button v-if="index === 1" @click="onSubmit" class="float-lg-right" variant="primary">Terminer</b-button>
+        </b-form>
     </div>
 </template>
 
 <script>
     export default {
-        name: "Question",
-        data() {
+        name: 'Question',
+        data: function () {
             return {
-                selected: [], // Must be an array reference!
-                options: [
-                    { text: 'Orange', value: 'orange' },
-                    { text: 'Apple', value: 'apple' },
-                    { text: 'Pineapple', value: 'pineapple' },
-                    { text: 'Grape', value: 'grape' }
-                ]
+                form: null
+            }
+        },
+        props: {
+            index:null,
+            question:null
+        },
+        methods: {
+            before(){
+                this.$emit("before")
+            },
+            onSubmit() {
+                this.$emit("resultQuestion",this.question)
             }
         }
     }
 </script>
-
-<style scoped>
-
-</style>
