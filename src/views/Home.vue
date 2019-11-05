@@ -7,7 +7,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
+
 import Connexion from "../components/Connexion";
 
 export default {
