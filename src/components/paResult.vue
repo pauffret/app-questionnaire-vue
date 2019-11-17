@@ -21,6 +21,7 @@
       questions:null
     },
     mounted() {
+      // Défini le score du joueur
       var score = 0;
       this.questions.questions.map((q) => {
         var bool = true

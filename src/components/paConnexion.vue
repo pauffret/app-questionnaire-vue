@@ -70,17 +70,22 @@
             }
         },
         methods: {
+            // Vérifie si les champs du formulaire ne sont pas vide
             check() {
                 this.fnState = (this.form.firstname != "")
                 this.lnState = (this.form.lastname != "")
                 this.cpState = (this.form.company != "")
                 return (this.fnState)&&(this.lnState)&&(this.cpState)
             },
+            // Lors de la validation du formulaire
             onSubmit(evt) {
                 if(this.check()) {
                     evt.preventDefault()
+                    // Enregistre les données dans sessionStorage
                     sessionStorage.setItem("currentUser", JSON.stringify(this.form))
+                    // Set l'utilisateur
                     this.$emit("setUser")
+                    // Redirige vers le questionnaire
                     this.$router.push({ name: 'questionnaire'})
                 }
             },
